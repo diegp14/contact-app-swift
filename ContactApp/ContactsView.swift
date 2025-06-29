@@ -8,17 +8,36 @@
 import SwiftUI
 
 struct ContactsView: View {
+    @Binding var contacts: [Contact]
+    @State private var isPresentingNewContactView: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack{
+            List($contacts) {
+                $contact in
+                NavigationLink(destination: DetailView(contact: $contact)){
+                    CardView(contact: contact)
+                }
+            }
+            .navigationTitle("Contacts")
+            .toolbar{
+                Button(action: {
+                    isPresentingNewContactView = true
+                }){
+                    Image(systemName: "plus")
+                }
+                .padding()
+                .accessibilityLabel("New Contact")
         }
-        .padding()
+        }
+        .sheet(isPresented: $isPresentingNewContactView){
+            NewContact(contacts: $contacts)
+            
+        }
+        
     }
 }
 
 #Preview {
-    ContactsView()
+    @Previewable @State var contacts = Contact.sampleData
+    ContactsView(contacts: $contacts)
 }

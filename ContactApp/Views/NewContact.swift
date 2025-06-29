@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct NewContact: View {
+    @State private var newContact = Contact.emptyContact
+    @Binding var contacts: [Contact]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+       NavigationStack {
+           DetailEditView(contact: $newContact, saveEdits: {
+               contact in
+               contacts.append(newContact)
+           })
+        }
     }
 }
 
 #Preview {
-    NewContact()
+    NewContact(contacts: .constant(Contact.sampleData))
 }

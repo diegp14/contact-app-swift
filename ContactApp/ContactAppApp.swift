@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ContactAppApp: App {
+    
+    @State private var contacts = Contact.sampleData
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContactsView(contacts: $contacts)
         }
     }
 }

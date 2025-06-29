@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct CardView: View {
+    let contact: Contact
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 2) {
+            
+            
+                Text(contact.name)
+                    .foregroundColor(.primary)
+                    .font(.headline)
+            HStack {
+                Label(contact.phoneNumber, systemImage: "phone")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Label(formattedBirthday(contact.birthday),
+                      systemImage: "birthday.cake")
+                
+            }
+        }
+        .padding(10)
+        
+    }
+    
+    private func formattedBirthday(_ birthday: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: birthday)
     }
 }
 
-#Preview {
-    CardView()
+#Preview(traits: .fixedLayout(width: 400, height: 60)){
+    let contact = Contact.sampleData[0]
+    CardView(contact:contact)
 }
